@@ -6,6 +6,10 @@
   background-color: white;
   cursor: pointer;
 }
+body{
+  margin: 0;
+  padding: 0;
+}
 
 .input-method-selector select:hover {
   border-color: #007bff;
@@ -25,3 +29,5 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+@import '../../../node_modules/bootstrap/scss/bootstrap';
