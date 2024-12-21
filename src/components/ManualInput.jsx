@@ -8,6 +8,8 @@ const Canvas = forwardRef((props, ref) => {
   const [totalWeight, setTotalWeight] = useState(0);
   const [manualInputEdge, setManualInputEdge] = useState("");
   const [newVertexLabel, setNewVertexLabel] = useState("");
+  const canvasRef = useRef(null);
+  const menuWidth = 300;
 
   const addVertex = (x, y, label) => {
     if (!label || vertices.some((v) => v.label === label)) {
@@ -145,24 +147,88 @@ const Canvas = forwardRef((props, ref) => {
   };
 
   return (
-    <div>
-      <Sketch setup={(p5) => p5.createCanvas(800, 600)} draw={draw} mousePressed={mousePressed} />
-      <div style={{ marginTop: "10px" }}>
-        <input
-          type="text"
-          value={newVertexLabel}
-          onChange={(e) => setNewVertexLabel(e.target.value)}
-          placeholder="Enter vertex label (e.g., A)"
-        />
-        <p>Click on the canvas to add a vertex with the entered label.</p>
-        <input
-          type="text"
-          value={manualInputEdge}
-          onChange={(e) => setManualInputEdge(e.target.value)}
-          placeholder="Enter edge (e.g., A B 5)"
-        />
-        <button onClick={addManualEdge}>Add Edge</button>
-        <button onClick={calculateMST}>Calculate MST</button>
+    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+      <div
+        style={{
+          width: `${menuWidth}px`,
+          padding: "20px",
+          backgroundColor: "#f4f4f4",
+          height: "100vh",
+        }}
+      >
+        <h3 className="fs-1">Graph Controls</h3>
+        <hr />
+        <div style={{ marginBottom: "20px" }}>
+          <label>New Vertex Label:</label>
+          <input
+            type="text"
+            className="form-control"
+            value={newVertexLabel}
+            onChange={(e) => setNewVertexLabel(e.target.value)}
+            placeholder="Enter vertex label (e.g., A)"
+            style={{ width: "100%", marginTop: "5px" }}
+          />
+        </div>
+        <div style={{ marginBottom: "20px" }}>
+          <label>Edge Input:</label>
+          <input
+            type="text"
+            className="form-control"
+            value={manualInputEdge}
+            onChange={(e) => setManualInputEdge(e.target.value)}
+            placeholder="Enter edge (e.g., A B 5)"
+            style={{ width: "100%", marginTop: "5px" }}
+          />
+        </div>
+        <button 
+          onClick={addManualEdge} 
+          className="btn btn-primary"
+          style={{ marginBottom: "10px", width: "100%" }}
+        >
+          Add Edge
+        </button>
+        <button 
+          onClick={calculateMST}
+          className="btn btn-success" 
+          style={{ marginBottom: "10px", width: "100%" }}
+        >
+          Calculate MST
+        </button>
+        <button 
+          onClick={() => {
+            setVertices([]);
+            setEdges([]);
+            setMstEdges([]);
+            setTotalWeight(0);
+          }}
+          className="btn btn-danger"
+          style={{ marginBottom: "20px", width: "100%" }}
+        >
+          Clear Graph
+        </button>
+        {mstEdges.length > 0 && (
+          <div style={{ marginTop: "20px", padding: "10px", backgroundColor: "#fff", borderRadius: "4px" }}>
+            <h4>Total MST Weight:</h4>
+            <p>{totalWeight.toFixed(2)}</p>
+          </div>
+        )}
+      </div>
+      <div style={{ flex: 2, height: "100%" }}>
+        <div ref={canvasRef} style={{ width: "100%", height: "100%" }}>
+          <Sketch
+            setup={(p5) => {
+              const canvas = p5.createCanvas(window.innerWidth - menuWidth, window.innerHeight);
+              if (canvasRef.current) {
+                canvas.parent(canvasRef.current);
+              }
+            }}
+            draw={draw}
+            mousePressed={mousePressed}
+            windowResized={(p5) => {
+              p5.resizeCanvas(window.innerWidth - menuWidth, window.innerHeight);
+            }}
+          />
+        </div>
       </div>
     </div>
   );

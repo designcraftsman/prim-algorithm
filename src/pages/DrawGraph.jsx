@@ -1,11 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState,useEffect, useRef } from "react";
 import Sketch from "react-p5";
 
 const MSTVisualizer = () => {
   const [vertices, setVertices] = useState([]);
   const [edges, setEdges] = useState([]);
   const [scale, setScale] = useState(5);
-  const [unit, setUnit] = useState('km');
+  const [unit, setUnit] = useState("km");
   const canvasRef = useRef(null); // Reference to the canvas container
   const padding = 50; // Padding around the canvas
   const menuWidth = 400; // Width of the menu
@@ -82,17 +82,17 @@ const MSTVisualizer = () => {
 
   const draw = (p5) => {
     p5.background(51);
-    
-    const drawableWidth = p5.width - menuWidth - (2 * padding);
-    const drawableHeight = p5.height - (2 * padding);
-    
-    p5.translate(menuWidth + padding + drawableWidth/2, padding + drawableHeight/2);
-    
+
+    const drawableWidth = p5.width - menuWidth - 2 * padding;
+    const drawableHeight = p5.height - 2 * padding;
+
+    p5.translate(menuWidth + padding + drawableWidth / 2, padding + drawableHeight / 2);
+
     // Draw axes
     p5.stroke(200);
     p5.strokeWeight(1);
-    p5.line(-drawableWidth/2, 0, drawableWidth/2, 0);
-    p5.line(0, -drawableHeight/2, 0, drawableHeight/2);
+    p5.line(-drawableWidth / 2, 0, drawableWidth / 2, 0);
+    p5.line(0, -drawableHeight / 2, 0, drawableHeight / 2);
 
     // Draw tick marks and values using scale
     const tickSpacing = 50; // Pixels between ticks
@@ -101,28 +101,27 @@ const MSTVisualizer = () => {
     p5.textAlign(p5.CENTER, p5.CENTER);
 
     // X-axis ticks and values
-    for (let x = -drawableWidth/2; x <= drawableWidth/2; x += tickSpacing) {
-        p5.line(x, -5, x, 5);
-        // Calculate value based on position and scale
-        const value = Math.floor(x/tickSpacing) * scale;
-        p5.text(value, x, 15);
+    for (let x = -drawableWidth / 2; x <= drawableWidth / 2; x += tickSpacing) {
+      p5.line(x, -5, x, 5);
+      // Calculate value based on position and scale
+      const value = Math.floor(x / tickSpacing) * scale;
+      p5.text(value, x, 15);
     }
 
     // Y-axis ticks and values
     p5.textAlign(p5.RIGHT, p5.CENTER);
-    for (let y = -drawableHeight/2; y <= drawableHeight/2; y += tickSpacing) {
-        p5.line(-5, y, 5, y);
-        // Calculate value based on position and scale (negative for Y-axis)
-        const value = -Math.floor(y/tickSpacing) * scale;
-        p5.text(value, -10, y);
+    for (let y = -drawableHeight / 2; y <= drawableHeight / 2; y += tickSpacing) {
+      p5.line(-5, y, 5, y);
+      // Calculate value based on position and scale (negative for Y-axis)
+      const value = -Math.floor(y / tickSpacing) * scale;
+      p5.text(value, -10, y);
     }
 
     // Draw vertices with adjusted coordinates
     vertices.forEach(({ x, y, label }) => {
-      // Convert from screen to coordinate system
-      const screenX = x - (drawableWidth/2);
-      const screenY = y - (drawableHeight/2);
-      
+      const screenX = x - drawableWidth / 2;
+      const screenY = y - drawableHeight / 2;
+
       p5.fill(255);
       p5.noStroke();
       p5.ellipse(screenX, screenY, 10, 10);
@@ -134,23 +133,27 @@ const MSTVisualizer = () => {
 
     // Draw edges with adjusted coordinates
     edges.forEach(({ v1, v2, distance }) => {
-      const screen1X = v1.x - (drawableWidth/2);
-      const screen1Y = v1.y - (drawableHeight/2);
-      const screen2X = v2.x - (drawableWidth/2);
-      const screen2Y = v2.y - (drawableHeight/2);
-      
+      const screen1X = v1.x - drawableWidth / 2;
+      const screen1Y = v1.y - drawableHeight / 2;
+      const screen2X = v2.x - drawableWidth / 2;
+      const screen2Y = v2.y - drawableHeight / 2;
+
       p5.stroke(255, 0, 0);
       p5.strokeWeight(2);
       p5.line(screen1X, screen1Y, screen2X, screen2Y);
-      
+
       const midX = (screen1X + screen2X) / 2;
       const midY = (screen1Y + screen2Y) / 2;
       p5.fill(255);
       p5.noStroke();
       p5.textSize(12);
-      p5.text(distance.toFixed(2) + ' ' + unit, midX, midY);
+      p5.text(distance.toFixed(2) + " " + unit, midX, midY);
     });
   };
+
+  useEffect(() => {
+    calculateMST(); // Automatically calculate MST when the component is mounted
+  }, []);
 
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
@@ -164,10 +167,12 @@ const MSTVisualizer = () => {
         }}
       >
         <h3 className="fs-1">Graph Controls</h3>
+        <hr />
         <div style={{ marginBottom: "20px" }}>
           <label>Scale:</label>
           <input
             type="number"
+            className="form-control"
             min="1"
             value={scale}
             onChange={(e) => setScale(parseInt(e.target.value))}
@@ -178,6 +183,7 @@ const MSTVisualizer = () => {
           <label>Units:</label>
           <select 
             value={unit} 
+            className="form-control"
             onChange={(e) => setUnit(e.target.value)}
             style={{ width: "100%", marginTop: "5px" }}
           >
@@ -199,13 +205,16 @@ const MSTVisualizer = () => {
           </div>
         )}
       </div>
-      <div style={{ flex: 1, marginLeft: `${menuWidth}px`, height: "100%" }}>
+      <div style={{ flex: 2,  height: "100%" }}>
         <div ref={canvasRef} style={{ width: "100%", height: "100%" }}>
           <Sketch
             setup={(p5) => {
-              const canvas = p5.createCanvas(window.innerWidth - menuWidth, window.innerHeight);
-              canvas.parent(canvasRef.current);
+              const canvas = p5.createCanvas(window.innerWidth , window.innerHeight);
+              if (canvasRef.current) {
+                canvas.parent(canvasRef.current); // Attach only if the ref exists
+              }
             }}
+            
             draw={draw}
             mousePressed={mousePressed}
             windowResized={(p5) => {

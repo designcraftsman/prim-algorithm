@@ -8,7 +8,6 @@ const ManualInput = () => {
 
   return (
     <div className="manual-container">
-      <h2>Manual Graph Input</h2>
       <ManualInputComponent onCalculate={handleCalculate} />
     </div>
   );
