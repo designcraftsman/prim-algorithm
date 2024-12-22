@@ -22,13 +22,13 @@ const Home = () => {
       <h1 className="display-1 text-white">Algorithme de Prim</h1>
       <div className="options my-5 d-flex align-items-center gap-5">
         <a href="/draw" className="text-decoration-none text-white ">
-          <img src={graph} alt="Draw Graph" style={{ width: '150px', marginBottom: '10px' }} />
-          <span className="display-4">Tracer Un Graphe</span>
+          <img src={graph} alt="Draw Graph" style={{ width: '120px', marginBottom: '10px' }} />
+          <span className="display-5">Tracer Un Graphe</span>
         </a>
-        <div className="divider" style={{ height: '60px', width: '2px' }} />
+        <div className="divider" style={{ height: '150px', width: '2px' }} />
         <a href="/manual" className="text-decoration-none text-white">
-          <img src={input} alt="Manual Input" style={{ width: '150px', marginBottom: '10px' }} />
-          <span className="display-4">Saisir les sommets</span>
+          <img src={input} alt="Manual Input" style={{ width: '120px', marginBottom: '10px' }} />
+          <span className="display-5">Saisir les sommets</span>
         </a>
       </div>
     </div>

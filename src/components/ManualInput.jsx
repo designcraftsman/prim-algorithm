@@ -1,6 +1,8 @@
 import React, { useState, useRef, useImperativeHandle, forwardRef } from "react";
 import Sketch from "react-p5";
 import graphique from "../assets/icons/graphique.svg";
+import { TbTimeline } from "react-icons/tb";
+import { TbLine } from "react-icons/tb";
 
 const Canvas = forwardRef((props, ref) => {
   const [vertices, setVertices] = useState([]);
@@ -163,7 +165,7 @@ const Canvas = forwardRef((props, ref) => {
         </h3>
         <hr />
         <div style={{ marginBottom: "20px" }}>
-          <label>Étiquette du sommet :</label>
+          <label><TbTimeline /> Étiquette du sommet :</label>
           <input
             type="text"
             className="form-control"
@@ -173,7 +175,7 @@ const Canvas = forwardRef((props, ref) => {
           />
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <label>Liaisons:</label>
+          <label><TbLine /> Liaisons:</label>
           <input
             type="text"
             className="form-control"
@@ -206,6 +208,7 @@ const Canvas = forwardRef((props, ref) => {
             <span>Vider Le Graphe</span>
           </button>
         </div>
+        <hr />
         {mstEdges.length > 0 && (
           <div style={{ marginTop: "20px", padding: "10px", backgroundColor: "#fff", borderRadius: "4px" }}>
             <h4>Total Distance:</h4>

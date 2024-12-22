@@ -1,6 +1,8 @@
 import React, { useState,useEffect, useRef } from "react";
 import Sketch from "react-p5";
 import setting from "../assets/icons/setting.svg";
+import { CgArrowsVAlt } from "react-icons/cg";
+import { GiPathDistance } from "react-icons/gi";
 
 const MSTVisualizer = () => {
   const [vertices, setVertices] = useState([]);
@@ -33,13 +35,13 @@ const MSTVisualizer = () => {
         for (let j = 0; j < unreached.length; j++) {
           const v1 = reached[i];
           const v2 = unreached[j];
-          // Calculate distance in coordinate units
+          // Calculate raw distance in coordinate units
           const pixelDist = Math.hypot(v2.x - v1.x, v2.y - v1.y);
-          // Convert to scaled units (e.g., km, m, etc.)
-          const scaledDist = (pixelDist / 50) * scale; // 50 pixels = 1 unit
+          // Store unscaled distance (1 unit = 50 pixels)
+          const rawDist = pixelDist / 50;
 
-          if (scaledDist < record) {
-            record = scaledDist;
+          if (rawDist < record) {
+            record = rawDist;
             rIndex = i;
             uIndex = j;
           }
@@ -50,9 +52,9 @@ const MSTVisualizer = () => {
         const v1 = reached[rIndex];
         const v2 = unreached[uIndex];
         const pixelDist = Math.hypot(v2.x - v1.x, v2.y - v1.y);
-        const scaledDist = (pixelDist / 50) * scale;
+        const rawDist = pixelDist / 50;
         const label = String.fromCharCode(edgeLabel++);
-        newEdges.push({ v1, v2, distance: scaledDist, label });
+        newEdges.push({ v1, v2, distance: rawDist, label });
         reached.push(v2);
         unreached.splice(uIndex, 1);
       }
@@ -62,8 +64,7 @@ const MSTVisualizer = () => {
   };
 
   const calculateTotal = () => {
-    // No need to multiply by scale here since distances are already scaled
-    return edges.reduce((sum, edge) => sum + edge.distance, 0); 
+    return edges.reduce((sum, edge) => sum + edge.distance, 0);
   };
 
   const clearGraph = () => {
@@ -148,7 +149,7 @@ const MSTVisualizer = () => {
       p5.fill(255);
       p5.noStroke();
       p5.textSize(12);
-      p5.text(distance.toFixed(2) + " " + unit, midX, midY);
+      p5.text((distance * scale).toFixed(2) + " " + unit, midX, midY);
     });
   };
 
@@ -173,7 +174,7 @@ const MSTVisualizer = () => {
           </h3>
         <hr />
         <div style={{ marginBottom: "20px" }}>
-          <label>Echelle:</label>
+          <label><CgArrowsVAlt /> Echelle:</label>
           <input
             type="number"
             className="form-control"
@@ -184,7 +185,7 @@ const MSTVisualizer = () => {
           />
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <label>Unités:</label>
+          <label><GiPathDistance /> Unités:</label>
           <select 
             value={unit} 
             className="form-control"
@@ -206,6 +207,7 @@ const MSTVisualizer = () => {
             <span>Vider Le Graphe</span>
           </button>
         </div>
+        <hr />
         {edges.length > 0 && (
           <div style={{ marginTop: "20px", padding: "10px", backgroundColor: "#fff", borderRadius: "4px" }}>
             <h4>Total Distance:</h4>
