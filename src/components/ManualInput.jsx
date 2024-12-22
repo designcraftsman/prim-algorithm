@@ -1,5 +1,6 @@
 import React, { useState, useRef, useImperativeHandle, forwardRef } from "react";
 import Sketch from "react-p5";
+import graphique from "../assets/icons/graphique.svg";
 
 const Canvas = forwardRef((props, ref) => {
   const [vertices, setVertices] = useState([]);
@@ -9,7 +10,7 @@ const Canvas = forwardRef((props, ref) => {
   const [manualInputEdge, setManualInputEdge] = useState("");
   const [newVertexLabel, setNewVertexLabel] = useState("");
   const canvasRef = useRef(null);
-  const menuWidth = 300;
+  const menuWidth = 400;
 
   const addVertex = (x, y, label) => {
     if (!label || vertices.some((v) => v.label === label)) {
@@ -156,59 +157,58 @@ const Canvas = forwardRef((props, ref) => {
           height: "100vh",
         }}
       >
-        <h3 className="fs-1">Graph Controls</h3>
+        <h3 className="fs-2 fw-bold m-0 mb-3">
+          <img src={graphique} alt="Manual Input" style={{ width: '50px', marginRight: '10px' }} />
+          Contrôles Manuels
+        </h3>
         <hr />
         <div style={{ marginBottom: "20px" }}>
-          <label>New Vertex Label:</label>
+          <label>Étiquette du sommet :</label>
           <input
             type="text"
             className="form-control"
             value={newVertexLabel}
             onChange={(e) => setNewVertexLabel(e.target.value)}
-            placeholder="Enter vertex label (e.g., A)"
             style={{ width: "100%", marginTop: "5px" }}
           />
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <label>Edge Input:</label>
+          <label>Liaisons:</label>
           <input
             type="text"
             className="form-control"
             value={manualInputEdge}
             onChange={(e) => setManualInputEdge(e.target.value)}
-            placeholder="Enter edge (e.g., A B 5)"
+            placeholder="Format: A B 5"
             style={{ width: "100%", marginTop: "5px" }}
           />
         </div>
-        <button 
-          onClick={addManualEdge} 
-          className="btn btn-primary"
-          style={{ marginBottom: "10px", width: "100%" }}
-        >
-          Add Edge
-        </button>
-        <button 
-          onClick={calculateMST}
-          className="btn btn-success" 
-          style={{ marginBottom: "10px", width: "100%" }}
-        >
-          Calculate MST
-        </button>
-        <button 
-          onClick={() => {
-            setVertices([]);
-            setEdges([]);
-            setMstEdges([]);
-            setTotalWeight(0);
-          }}
-          className="btn btn-danger"
-          style={{ marginBottom: "20px", width: "100%" }}
-        >
-          Clear Graph
-        </button>
+        <div className="btn-holder">
+          <button onClick={addManualEdge} className="btn btn-3 hover-border-3">
+            <span>Ajouter Arête</span>
+          </button>
+        </div>
+        <div className="btn-holder">
+          <button onClick={calculateMST} className="btn btn-3 hover-border-3">
+            <span>Calculer ACM</span>
+          </button>
+        </div>
+        <div className="btn-holder">
+          <button 
+            onClick={() => {
+              setVertices([]);
+              setEdges([]);
+              setMstEdges([]);
+              setTotalWeight(0);
+            }} 
+            className="btn btn-3 hover-border-3"
+          >
+            <span>Vider Le Graphe</span>
+          </button>
+        </div>
         {mstEdges.length > 0 && (
           <div style={{ marginTop: "20px", padding: "10px", backgroundColor: "#fff", borderRadius: "4px" }}>
-            <h4>Total MST Weight:</h4>
+            <h4>Total Distance:</h4>
             <p>{totalWeight.toFixed(2)}</p>
           </div>
         )}

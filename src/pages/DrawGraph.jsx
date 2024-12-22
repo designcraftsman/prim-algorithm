@@ -1,14 +1,15 @@
 import React, { useState,useEffect, useRef } from "react";
 import Sketch from "react-p5";
+import setting from "../assets/icons/setting.svg";
 
 const MSTVisualizer = () => {
   const [vertices, setVertices] = useState([]);
   const [edges, setEdges] = useState([]);
-  const [scale, setScale] = useState(5);
+  const [scale, setScale] = useState(1);
   const [unit, setUnit] = useState("km");
   const canvasRef = useRef(null); // Reference to the canvas container
   const padding = 50; // Padding around the canvas
-  const menuWidth = 400; // Width of the menu
+  const menuWidth = 450; // Width of the menu
 
   const addVertex = (x, y) => {
     const label = String.fromCharCode(65 + vertices.length); // 'A', 'B', 'C', ...
@@ -62,7 +63,7 @@ const MSTVisualizer = () => {
 
   const calculateTotal = () => {
     // No need to multiply by scale here since distances are already scaled
-    return edges.reduce((sum, edge) => sum + edge.distance, 0);
+    return edges.reduce((sum, edge) => sum + edge.distance, 0); 
   };
 
   const clearGraph = () => {
@@ -166,10 +167,13 @@ const MSTVisualizer = () => {
           height: "100vh",
         }}
       >
-        <h3 className="fs-1">Graph Controls</h3>
+        <h3 className="fs-2 fw-bold m-0 mb-3">
+           <img src={setting} alt="Draw Graph" style={{ width: '50px', marginRight: '10px' }} />
+          Contrôles Graphiques
+          </h3>
         <hr />
         <div style={{ marginBottom: "20px" }}>
-          <label>Scale:</label>
+          <label>Echelle:</label>
           <input
             type="number"
             className="form-control"
@@ -180,7 +184,7 @@ const MSTVisualizer = () => {
           />
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <label>Units:</label>
+          <label>Unités:</label>
           <select 
             value={unit} 
             className="form-control"
@@ -192,12 +196,16 @@ const MSTVisualizer = () => {
             <option value="cm">Centimeters (cm)</option>
           </select>
         </div>
-        <button onClick={calculateMST} style={{ marginBottom: "10px", width: "100%" }}>
-          Calculate MST
-        </button>
-        <button onClick={clearGraph} style={{ marginBottom: "20px", width: "100%" }}>
-          Clear Graph
-        </button>
+        <div className="btn-holder  ">
+          <button onClick={calculateMST} class="btn btn-3 hover-border-3 ">
+            <span>Calculer ACM</span>
+          </button>
+        </div>
+        <div className="btn-holder  ">
+          <button onClick={clearGraph} class="btn btn-3 hover-border-3 ">
+            <span>Vider Le Graphe</span>
+          </button>
+        </div>
         {edges.length > 0 && (
           <div style={{ marginTop: "20px", padding: "10px", backgroundColor: "#fff", borderRadius: "4px" }}>
             <h4>Total Distance:</h4>

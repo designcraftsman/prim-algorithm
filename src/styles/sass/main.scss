@@ -30,5 +30,7 @@ button:hover {
   background-color: #0056b3;
 }
 
+@import './font/typography.scss';
+@import './components/buttons.scss';
 @import './pages/menu.scss';
 @import '../../../node_modules/bootstrap/scss/bootstrap';
