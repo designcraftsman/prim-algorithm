@@ -38,6 +38,10 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+.display-1, .display-2, .display-3, .display-4, .display-5, .display-6 {
+  font-family: "Roboto", sans-serif, sans-serif;
+}
+
 .loading-background {
   background: rgb(11, 11, 20);
   width: 100%;
@@ -58,7 +62,7 @@ body {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border-top: 2px solid rgb(255, 234, 41);
+  border-top: 2px solid rgb(167, 167, 167);
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
   animation: rt 2s infinite linear;
@@ -73,7 +77,7 @@ body {
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  border-top: 2px solid rgb(141, 41, 255);
+  border-top: 2px solid rgb(253, 252, 255);
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
   animation: rt 4s infinite linear reverse;
@@ -222,6 +226,52 @@ body {
   height: 99%;
   opacity: 1;
   transition: width 0.2s linear, height 0.15s 0.2s linear, opacity 0s;
+}
+
+.mst-visualizer {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+.mst-visualizer__menu {
+  width: 450px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  position: fixed;
+  height: 100vh;
+}
+.mst-visualizer__menu-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+}
+.mst-visualizer__menu-title img {
+  width: 50px;
+  margin-right: 10px;
+}
+.mst-visualizer__menu-control {
+  margin-bottom: 20px;
+}
+.mst-visualizer__menu-control label {
+  display: block;
+  margin-bottom: 5px;
+}
+.mst-visualizer__menu-control .form-control {
+  width: 100%;
+  margin-top: 5px;
+}
+.mst-visualizer__menu-total {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+.mst-visualizer__menu-total h4, .mst-visualizer__menu-total .h4 {
+  margin-bottom: 10px;
+}
+.mst-visualizer__canvas-container {
+  flex: 2;
+  height: 100%;
 }
 
 .home-container {

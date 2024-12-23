@@ -1,8 +1,9 @@
-import React, { useState,useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Sketch from "react-p5";
 import setting from "../assets/icons/setting.svg";
 import { CgArrowsVAlt } from "react-icons/cg";
 import { GiPathDistance } from "react-icons/gi";
+
 
 const MSTVisualizer = () => {
   const [vertices, setVertices] = useState([]);
@@ -158,22 +159,14 @@ const MSTVisualizer = () => {
   }, []);
 
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
-      <div
-        style={{
-          width: `${menuWidth}px`,
-          padding: "20px",
-          backgroundColor: "#f4f4f4",
-          position: "fixed",
-          height: "100vh",
-        }}
-      >
-        <h3 className="fs-2 fw-bold m-0 mb-3">
-           <img src={setting} alt="Draw Graph" style={{ width: '50px', marginRight: '10px' }} />
+    <div className="mst-visualizer">
+      <div className="mst-visualizer__menu">
+        <h3 className="mst-visualizer__menu-title">
+          <img src={setting} alt="Draw Graph" />
           Contrôles Graphiques
-          </h3>
+        </h3>
         <hr />
-        <div style={{ marginBottom: "20px" }}>
+        <div className="mst-visualizer__menu-control">
           <label><CgArrowsVAlt /> Echelle:</label>
           <input
             type="number"
@@ -181,50 +174,47 @@ const MSTVisualizer = () => {
             min="1"
             value={scale}
             onChange={(e) => setScale(parseInt(e.target.value))}
-            style={{ width: "100%", marginTop: "5px" }}
           />
         </div>
-        <div style={{ marginBottom: "20px" }}>
+        <div className="mst-visualizer__menu-control">
           <label><GiPathDistance /> Unités:</label>
           <select 
             value={unit} 
             className="form-control"
             onChange={(e) => setUnit(e.target.value)}
-            style={{ width: "100%", marginTop: "5px" }}
           >
             <option value="km">Kilometers (km)</option>
             <option value="m">Meters (m)</option>
             <option value="cm">Centimeters (cm)</option>
           </select>
         </div>
-        <div className="btn-holder  ">
-          <button onClick={calculateMST} class="btn btn-3 hover-border-3 ">
+        <div className="btn-holder">
+          <button onClick={calculateMST} className="btn btn-3 hover-border-3">
             <span>Calculer ACM</span>
           </button>
         </div>
-        <div className="btn-holder  ">
-          <button onClick={clearGraph} class="btn btn-3 hover-border-3 ">
+        <div className="btn-holder">
+          <button onClick={clearGraph} className="btn btn-3 hover-border-3">
             <span>Vider Le Graphe</span>
           </button>
         </div>
         <hr />
         {edges.length > 0 && (
-          <div style={{ marginTop: "20px", padding: "10px", backgroundColor: "#fff", borderRadius: "4px" }}>
+          <div className="mst-visualizer__menu-total">
             <h4>Total Distance:</h4>
             <p>{(calculateTotal() * scale).toFixed(2)} {unit}</p>
           </div>
         )}
       </div>
-      <div style={{ flex: 2,  height: "100%" }}>
+      <div className="mst-visualizer__canvas-container">
         <div ref={canvasRef} style={{ width: "100%", height: "100%" }}>
           <Sketch
             setup={(p5) => {
-              const canvas = p5.createCanvas(window.innerWidth , window.innerHeight);
+              const canvas = p5.createCanvas(window.innerWidth, window.innerHeight);
               if (canvasRef.current) {
                 canvas.parent(canvasRef.current); // Attach only if the ref exists
               }
             }}
-            
             draw={draw}
             mousePressed={mousePressed}
             windowResized={(p5) => {

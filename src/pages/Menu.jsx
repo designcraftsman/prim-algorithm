@@ -1,35 +1,57 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import background from '../assets/images/background.jpg'; // Import the background image
-import graph from '../assets/icons/graph.svg'; // Import the graph icon
-import input from '../assets/icons/input.svg'; // Import the input icon
+import background from '../assets/videos/background.mp4';
+import graph from '../assets/icons/graph.svg';
+import input from '../assets/icons/input.svg';
 
 const Home = () => {
   return (
-    <div
-      className="home-container"
-      style={{
-        backgroundImage: `url(${background})`, // Use imported image
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <h1 className="display-1 text-white">Algorithme de Prim</h1>
-      <div className="options my-5 d-flex align-items-center gap-5">
-        <a href="/draw" className="text-decoration-none text-white ">
-          <img src={graph} alt="Draw Graph" style={{ width: '120px', marginBottom: '10px' }} />
-          <span className="display-5">Tracer Un Graphe</span>
-        </a>
-        <div className="divider" style={{ height: '150px', width: '2px' }} />
-        <a href="/manual" className="text-decoration-none text-white">
-          <img src={input} alt="Manual Input" style={{ width: '120px', marginBottom: '10px' }} />
-          <span className="display-5">Saisir les sommets</span>
-        </a>
+    <div className="home-container" style={{ position: 'relative', height: '100vh' }}>
+      <video
+        autoPlay
+        muted
+        loop
+        id="myVideo"
+        style={{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          minWidth: '100%',
+          minHeight: '100%',
+          width: 'auto',
+          height: 'auto',
+          zIndex: '-1',
+          objectFit: 'cover'
+        }}
+      >
+        <source src={background} type="video/mp4" />
+      </video>
+      <div 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0,0,0,0.5)', // Optional overlay
+          zIndex: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <h1 className="display-1 text-white fw-bolder  text-center">Arbre Couvrant De Poids Minimal</h1>
+        <div className="options my-5 d-flex align-items-center gap-3">
+          <a href="/draw" className="text-decoration-none text-white ">
+            <img src={graph} alt="Draw Graph" style={{ width: '120px', marginBottom: '10px' }} />
+            <span className="display-5">Tracer Un Graphe</span>
+          </a>
+          <div className="divider" style={{ height: '150px', width: '2px' }} />
+          <a href="/manual" className="text-decoration-none text-white">
+            <img src={input} alt="Manual Input" style={{ width: '120px', marginBottom: '10px' }} />
+            <span className="display-5">Saisir les sommets</span>
+          </a>
+        </div>
       </div>
     </div>
   );

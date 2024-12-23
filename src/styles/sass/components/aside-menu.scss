@@ -1,0 +1,54 @@
+.mst-visualizer {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  
+    &__menu {
+      width: 450px;
+      padding: 20px;
+      background-color: #f4f4f4;
+      position: fixed;
+      height: 100vh;
+  
+      &-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0 0 1rem 0;
+  
+        img {
+          width: 50px;
+          margin-right: 10px;
+        }
+      }
+  
+      &-control {
+        margin-bottom: 20px;
+  
+        label {
+          display: block;
+          margin-bottom: 5px;
+        }
+  
+        .form-control {
+          width: 100%;
+          margin-top: 5px;
+        }
+      }
+  
+      &-total {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 4px;
+  
+        h4 {
+          margin-bottom: 10px;
+        }
+      }
+    }
+  
+    &__canvas-container {
+      flex: 2;
+      height: 100%;
+    }
+  }

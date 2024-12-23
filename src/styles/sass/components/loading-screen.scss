@@ -31,9 +31,9 @@
 }
 
 .arc {
-  @include arc(absolute, auto, 0, 0, 0, 0, 100px, 100px, 50%, 2px solid rgb(255, 234, 41), 1px solid transparent, rt 2s infinite linear);
+  @include arc(absolute, auto, 0, 0, 0, 0, 100px, 100px, 50%, 2px solid rgb(167, 167, 167), 1px solid transparent, rt 2s infinite linear);
   &::before {
-    @include arc(absolute, auto, 0, 0, 0, 0, 70px, 70px, 50%, 2px solid rgb(141, 41, 255), 1px solid transparent, rt 4s infinite linear reverse);
+    @include arc(absolute, auto, 0, 0, 0, 0, 70px, 70px, 50%, 2px solid rgb(253, 252, 255), 1px solid transparent, rt 4s infinite linear reverse);
     content: "";
   }
   &::after {
