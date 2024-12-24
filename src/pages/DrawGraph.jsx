@@ -4,45 +4,44 @@ import setting from "../assets/icons/setting.svg";
 import { CgArrowsVAlt } from "react-icons/cg";
 import { GiPathDistance } from "react-icons/gi";
 
-
 const MSTVisualizer = () => {
-  const [vertices, setVertices] = useState([]);
-  const [edges, setEdges] = useState([]);
-  const [scale, setScale] = useState(1);
-  const [unit, setUnit] = useState("km");
-  const canvasRef = useRef(null); // Reference to the canvas container
-  const padding = 50; // Padding around the canvas
-  const menuWidth = 450; // Width of the menu
+  const [sommets, setSommets] = useState([]);
+  const [arêtes, setArêtes] = useState([]);
+  const [échelle, setÉchelle] = useState(1);
+  const [unité, setUnité] = useState("km");
+  const canvasRef = useRef(null); // Référence au conteneur du canvas
+  const padding = 50; // Marge autour du canvas
+  const menuWidth = 450; // Largeur du menu
 
-  const addVertex = (x, y) => {
-    const label = String.fromCharCode(65 + vertices.length); // 'A', 'B', 'C', ...
-    setVertices((prev) => [...prev, { x, y, label }]);
+  const ajouterSommet = (x, y) => {
+    const label = String.fromCharCode(65 + sommets.length); // 'A', 'B', 'C', ...
+    setSommets((prev) => [...prev, { x, y, label }]);
   };
 
-  const calculateMST = () => {
-    if (vertices.length < 2) return;
+  const calculerACM = () => {
+    if (sommets.length < 2) return;
 
-    let reached = [vertices[0]];
-    let unreached = vertices.slice(1);
-    const newEdges = [];
-    let edgeLabel = "A".charCodeAt(0);
+    let atteints = [sommets[0]];
+    let nonAtteints = sommets.slice(1);
+    const nouvellesArêtes = [];
+    let labelArête = "A".charCodeAt(0);
 
-    while (unreached.length > 0) {
+    while (nonAtteints.length > 0) {
       let record = Infinity;
       let rIndex = -1;
       let uIndex = -1;
 
-      for (let i = 0; i < reached.length; i++) {
-        for (let j = 0; j < unreached.length; j++) {
-          const v1 = reached[i];
-          const v2 = unreached[j];
-          // Calculate raw distance in coordinate units
-          const pixelDist = Math.hypot(v2.x - v1.x, v2.y - v1.y);
-          // Store unscaled distance (1 unit = 50 pixels)
-          const rawDist = pixelDist / 50;
+      for (let i = 0; i < atteints.length; i++) {
+        for (let j = 0; j < nonAtteints.length; j++) {
+          const v1 = atteints[i];
+          const v2 = nonAtteints[j];
+          // Calculer la distance brute en unités de coordonnées
+          const distPixels = Math.hypot(v2.x - v1.x, v2.y - v1.y);
+          // Stocker la distance non mise à l'échelle (1 unité = 50 pixels)
+          const distBrute = distPixels / 50;
 
-          if (rawDist < record) {
-            record = rawDist;
+          if (distBrute < record) {
+            record = distBrute;
             rIndex = i;
             uIndex = j;
           }
@@ -50,159 +49,159 @@ const MSTVisualizer = () => {
       }
 
       if (rIndex !== -1 && uIndex !== -1) {
-        const v1 = reached[rIndex];
-        const v2 = unreached[uIndex];
-        const pixelDist = Math.hypot(v2.x - v1.x, v2.y - v1.y);
-        const rawDist = pixelDist / 50;
-        const label = String.fromCharCode(edgeLabel++);
-        newEdges.push({ v1, v2, distance: rawDist, label });
-        reached.push(v2);
-        unreached.splice(uIndex, 1);
+        const v1 = atteints[rIndex];
+        const v2 = nonAtteints[uIndex];
+        const distPixels = Math.hypot(v2.x - v1.x, v2.y - v1.y);
+        const distBrute = distPixels / 50;
+        const label = String.fromCharCode(labelArête++);
+        nouvellesArêtes.push({ v1, v2, distance: distBrute, label });
+        atteints.push(v2);
+        nonAtteints.splice(uIndex, 1);
       }
     }
 
-    setEdges(newEdges);
+    setArêtes(nouvellesArêtes);
   };
 
-  const calculateTotal = () => {
-    return edges.reduce((sum, edge) => sum + edge.distance, 0);
+  const calculerTotal = () => {
+    return arêtes.reduce((somme, arête) => somme + arête.distance, 0);
   };
 
-  const clearGraph = () => {
-    setVertices([]);
-    setEdges([]);
+  const viderGraphe = () => {
+    setSommets([]);
+    setArêtes([]);
   };
 
-  const mousePressed = (p5) => {
+  const sourisPressée = (p5) => {
     const x = p5.mouseX - menuWidth - padding;
     const y = p5.mouseY - padding;
 
     if (x >= 0 && x <= p5.width - 2 * padding && y >= 0 && y <= p5.height - 2 * padding) {
-      // Store raw coordinates
-      addVertex(x, y);
+      // Stocker les coordonnées brutes
+      ajouterSommet(x, y);
     }
   };
 
-  const draw = (p5) => {
+  const dessiner = (p5) => {
     p5.background(51);
 
-    const drawableWidth = p5.width - menuWidth - 2 * padding;
-    const drawableHeight = p5.height - 2 * padding;
+    const largeurDessinable = p5.width - menuWidth - 2 * padding;
+    const hauteurDessinable = p5.height - 2 * padding;
 
-    p5.translate(menuWidth + padding + drawableWidth / 2, padding + drawableHeight / 2);
+    p5.translate(menuWidth + padding + largeurDessinable / 2, padding + hauteurDessinable / 2);
 
-    // Draw axes
+    // Dessiner les axes
     p5.stroke(200);
     p5.strokeWeight(1);
-    p5.line(-drawableWidth / 2, 0, drawableWidth / 2, 0);
-    p5.line(0, -drawableHeight / 2, 0, drawableHeight / 2);
+    p5.line(-largeurDessinable / 2, 0, largeurDessinable / 2, 0);
+    p5.line(0, -hauteurDessinable / 2, 0, hauteurDessinable / 2);
 
-    // Draw tick marks and values using scale
-    const tickSpacing = 50; // Pixels between ticks
+    // Dessiner les graduations et les valeurs en utilisant l'échelle
+    const espacementGraduations = 50; // Pixels entre les graduations
     p5.textSize(10);
     p5.fill(255);
     p5.textAlign(p5.CENTER, p5.CENTER);
 
-    // X-axis ticks and values
-    for (let x = -drawableWidth / 2; x <= drawableWidth / 2; x += tickSpacing) {
+    // Graduations et valeurs de l'axe X
+    for (let x = -largeurDessinable / 2; x <= largeurDessinable / 2; x += espacementGraduations) {
       p5.line(x, -5, x, 5);
-      // Calculate value based on position and scale
-      const value = Math.floor(x / tickSpacing) * scale;
-      p5.text(value, x, 15);
+      // Calculer la valeur en fonction de la position et de l'échelle
+      const valeur = Math.floor(x / espacementGraduations) * échelle;
+      p5.text(valeur, x, 15);
     }
 
-    // Y-axis ticks and values
+    // Graduations et valeurs de l'axe Y
     p5.textAlign(p5.RIGHT, p5.CENTER);
-    for (let y = -drawableHeight / 2; y <= drawableHeight / 2; y += tickSpacing) {
+    for (let y = -hauteurDessinable / 2; y <= hauteurDessinable / 2; y += espacementGraduations) {
       p5.line(-5, y, 5, y);
-      // Calculate value based on position and scale (negative for Y-axis)
-      const value = -Math.floor(y / tickSpacing) * scale;
-      p5.text(value, -10, y);
+      // Calculer la valeur en fonction de la position et de l'échelle (négatif pour l'axe Y)
+      const valeur = -Math.floor(y / espacementGraduations) * échelle;
+      p5.text(valeur, -10, y);
     }
 
-    // Draw vertices with adjusted coordinates
-    vertices.forEach(({ x, y, label }) => {
-      const screenX = x - drawableWidth / 2;
-      const screenY = y - drawableHeight / 2;
+    // Dessiner les sommets avec des coordonnées ajustées
+    sommets.forEach(({ x, y, label }) => {
+      const écranX = x - largeurDessinable / 2;
+      const écranY = y - hauteurDessinable / 2;
 
       p5.fill(255);
       p5.noStroke();
-      p5.ellipse(screenX, screenY, 10, 10);
+      p5.ellipse(écranX, écranY, 10, 10);
       p5.fill(255, 255, 0);
       p5.textSize(14);
       p5.textAlign(p5.CENTER, p5.CENTER);
-      p5.text(label, screenX + 10, screenY - 10);
+      p5.text(label, écranX + 10, écranY - 10);
     });
 
-    // Draw edges with adjusted coordinates
-    edges.forEach(({ v1, v2, distance }) => {
-      const screen1X = v1.x - drawableWidth / 2;
-      const screen1Y = v1.y - drawableHeight / 2;
-      const screen2X = v2.x - drawableWidth / 2;
-      const screen2Y = v2.y - drawableHeight / 2;
+    // Dessiner les arêtes avec des coordonnées ajustées
+    arêtes.forEach(({ v1, v2, distance }) => {
+      const écran1X = v1.x - largeurDessinable / 2;
+      const écran1Y = v1.y - hauteurDessinable / 2;
+      const écran2X = v2.x - largeurDessinable / 2;
+      const écran2Y = v2.y - hauteurDessinable / 2;
 
       p5.stroke(255, 0, 0);
       p5.strokeWeight(2);
-      p5.line(screen1X, screen1Y, screen2X, screen2Y);
+      p5.line(écran1X, écran1Y, écran2X, écran2Y);
 
-      const midX = (screen1X + screen2X) / 2;
-      const midY = (screen1Y + screen2Y) / 2;
+      const milieuX = (écran1X + écran2X) / 2;
+      const milieuY = (écran1Y + écran2Y) / 2;
       p5.fill(255);
       p5.noStroke();
       p5.textSize(12);
-      p5.text((distance * scale).toFixed(2) + " " + unit, midX, midY);
+      p5.text((distance * échelle).toFixed(2) + " " + unité, milieuX, milieuY);
     });
   };
 
   useEffect(() => {
-    calculateMST(); // Automatically calculate MST when the component is mounted
+    calculerACM(); // Calculer automatiquement l'ACM lorsque le composant est monté
   }, []);
 
   return (
     <div className="mst-visualizer">
       <div className="mst-visualizer__menu">
         <h3 className="mst-visualizer__menu-title">
-          <img src={setting} alt="Draw Graph" />
+          <img src={setting} alt="Dessiner Graphe" />
           Contrôles Graphiques
         </h3>
         <hr />
         <div className="mst-visualizer__menu-control">
-          <label><CgArrowsVAlt /> Echelle:</label>
+          <label><CgArrowsVAlt /> Échelle:</label>
           <input
             type="number"
             className="form-control"
             min="1"
-            value={scale}
-            onChange={(e) => setScale(parseInt(e.target.value))}
+            value={échelle}
+            onChange={(e) => setÉchelle(parseInt(e.target.value))}
           />
         </div>
         <div className="mst-visualizer__menu-control">
           <label><GiPathDistance /> Unités:</label>
           <select 
-            value={unit} 
+            value={unité} 
             className="form-control"
-            onChange={(e) => setUnit(e.target.value)}
+            onChange={(e) => setUnité(e.target.value)}
           >
-            <option value="km">Kilometers (km)</option>
-            <option value="m">Meters (m)</option>
-            <option value="cm">Centimeters (cm)</option>
+            <option value="km">Kilomètres (km)</option>
+            <option value="m">Mètres (m)</option>
+            <option value="cm">Centimètres (cm)</option>
           </select>
         </div>
         <div className="btn-holder">
-          <button onClick={calculateMST} className="btn btn-3 hover-border-3">
+          <button onClick={calculerACM} className="btn btn-3 hover-border-3">
             <span>Calculer ACM</span>
           </button>
         </div>
         <div className="btn-holder">
-          <button onClick={clearGraph} className="btn btn-3 hover-border-3">
+          <button onClick={viderGraphe} className="btn btn-3 hover-border-3">
             <span>Vider Le Graphe</span>
           </button>
         </div>
         <hr />
-        {edges.length > 0 && (
+        {arêtes.length > 0 && (
           <div className="mst-visualizer__menu-total">
-            <h4>Total Distance:</h4>
-            <p>{(calculateTotal() * scale).toFixed(2)} {unit}</p>
+            <h4>Poids Totale:</h4>
+            <p>{(calculerTotal() * échelle).toFixed(2)} {unité}</p>
           </div>
         )}
       </div>
@@ -212,11 +211,11 @@ const MSTVisualizer = () => {
             setup={(p5) => {
               const canvas = p5.createCanvas(window.innerWidth, window.innerHeight);
               if (canvasRef.current) {
-                canvas.parent(canvasRef.current); // Attach only if the ref exists
+                canvas.parent(canvasRef.current); // Attacher seulement si la référence existe
               }
             }}
-            draw={draw}
-            mousePressed={mousePressed}
+            draw={dessiner}
+            mousePressed={sourisPressée}
             windowResized={(p5) => {
               p5.resizeCanvas(window.innerWidth - menuWidth, window.innerHeight);
             }}

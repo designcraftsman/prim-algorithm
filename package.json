@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "animejs": "^3.2.2",
     "bootstrap": "^5.3.3",
     "bootstrap5": "^1.1.9",
     "cra-template": "1.2.0",

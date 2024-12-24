@@ -1,0 +1,51 @@
+@keyframes revealFromLeft {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  
+  @keyframes hideToLeft {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0;
+    }
+  }
+  
+  @keyframes revealFromRight {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  
+  @keyframes hideToRight {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0;
+    }
+  }
+  
+  .reveal-left {
+    animation: revealFromLeft 0.3s forwards;
+  }
+  
+  .hide-left {
+    animation: hideToLeft 0.3s forwards;
+  }
+  
+  .reveal-right {
+    animation: revealFromRight 0.3s forwards;
+  }
+  
+  .hide-right {
+    animation: hideToRight 0.3s forwards;
+  }

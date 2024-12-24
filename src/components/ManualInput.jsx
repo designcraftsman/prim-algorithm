@@ -51,33 +51,48 @@ const Canvas = forwardRef((props, ref) => {
   };
 
   const calculerACM = () => {
-    if (aretes.length === 0) {
-      alert("Aucune arête disponible pour calculer l'ACM.");
+    if (sommets.length === 0 || aretes.length === 0) {
+      alert("Le graphe est vide ou incomplet.");
       return;
     }
 
-    // Algorithme de Prim pour l'ACM
-    const aretesTriees = [...aretes].sort((a, b) => a.distance - b.distance);
-    const parent = {};
-    const trouver = (v) => (parent[v] === v ? v : (parent[v] = trouver(parent[v])));
-    const union = (v1, v2) => {
-      const racine1 = trouver(v1);
-      const racine2 = trouver(v2);
-      if (racine1 !== racine2) parent[racine2] = racine1;
-    };
-
-    sommets.forEach((v) => (parent[v.etiquette] = v.etiquette));
-
+    // Initialisation pour Prim
+    const sommetsVisites = new Set();
     const acm = [];
     let sommePoids = 0;
 
-    aretesTriees.forEach(({ v1, v2, distance }) => {
-      if (trouver(v1.etiquette) !== trouver(v2.etiquette)) {
-        union(v1.etiquette, v2.etiquette);
-        acm.push({ v1, v2, distance });
-        sommePoids += distance;
+    // Sommet de départ (choisir le premier)
+    const sommetInitial = sommets[0];
+    sommetsVisites.add(sommetInitial.etiquette);
+
+    while (sommetsVisites.size < sommets.length) {
+      let arêteMin = null;
+      // Parcourir toutes les arêtes pour trouver celle avec le poids minimal
+      // connectant un sommet visité à un sommet non visité.
+      aretes.forEach(({ v1, v2, distance }) => {
+        const dansVisites = sommetsVisites.has(v1.etiquette) || sommetsVisites.has(v2.etiquette);
+        const horsVisites = !sommetsVisites.has(v1.etiquette) || !sommetsVisites.has(v2.etiquette);
+
+        if (dansVisites && horsVisites) {
+          if (!arêteMin || distance < arêteMin.distance) {
+            arêteMin = { v1, v2, distance };
+          }
+        }
+      });
+
+      if (arêteMin) {
+        acm.push(arêteMin);
+        sommePoids += arêteMin.distance;
+
+        // Ajouter le nouveau sommet connecté à l'ensemble des sommets visités
+        const nouveauSommet =
+          !sommetsVisites.has(arêteMin.v1.etiquette) ? arêteMin.v1 : arêteMin.v2;
+        sommetsVisites.add(nouveauSommet.etiquette);
+      } else {
+        alert("Le graphe n'est pas connexe.");
+        break;
       }
-    });
+    }
 
     setAretesACM(acm);
     setPoidsTotal(sommePoids);
@@ -211,7 +226,7 @@ const Canvas = forwardRef((props, ref) => {
         <hr />
         {aretesACM.length > 0 && (
           <div style={{ marginTop: "20px", padding: "10px", backgroundColor: "#fff", borderRadius: "4px" }}>
-            <h4>Distance Totale:</h4>
+            <h4 className="fw-bold">Poids Totale:</h4>
             <p>{poidsTotal.toFixed(2)}</p>
           </div>
         )}

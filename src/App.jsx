@@ -19,7 +19,7 @@ const AppContent = () => {
 
   return (
     <>
-      {loading && <LoadingScreen />}
+      <LoadingScreen isOpen={loading} />
       <Routes>
         <Route path="/" element={<Menu />} />
         <Route path="/draw" element={<DrawGraph />} />
