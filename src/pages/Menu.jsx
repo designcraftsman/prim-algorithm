@@ -83,6 +83,9 @@ const Home = () => {
           <a href="/draw" className="text-decoration-none btn btn-reverse hover-border-reverse">
             <span className="display-6 d-flex align-items-center"><img src={graph} alt="Draw Graph" style={{ width: '100px' }} /> Tracer Un Graphe</span>
           </a>
+          <a href="/upload" className="text-decoration-none btn btn-reverse hover-border-reverse">
+            <span className="display-6 d-flex align-items-center"><img src={graph} alt="Draw Graph" style={{ width: '100px' }} /> Télécharger une image</span>
+          </a>
         </div>
       </div>
     </div>

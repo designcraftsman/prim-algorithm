@@ -1,8 +1,7 @@
 import React, { useState, useRef, useImperativeHandle, forwardRef } from "react";
 import Sketch from "react-p5";
 import graphique from "../assets/icons/graphique.svg";
-import { TbTimeline } from "react-icons/tb";
-import { TbLine } from "react-icons/tb";
+import { TbTimeline, TbLine } from "react-icons/tb";
 
 const Canvas = forwardRef((props, ref) => {
   const [sommets, setSommets] = useState([]);
@@ -165,31 +164,23 @@ const Canvas = forwardRef((props, ref) => {
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
-      <div
-        style={{
-          width: `${largeurMenu}px`,
-          padding: "20px",
-          backgroundColor: "#f4f4f4",
-          height: "100vh",
-        }}
-      >
-        <h3 className="fs-2 fw-bold m-0 mb-3">
-          <img src={graphique} alt="Saisie Manuelle" style={{ width: '50px', marginRight: '10px' }} />
+    <div className="manual-input">
+      <div className="manual-input__menu">
+        <h3 className="manual-input__menu-title">
+          <img src={graphique} alt="Saisie Manuelle" />
           Contrôles Manuels
         </h3>
         <hr />
-        <div style={{ marginBottom: "20px" }}>
+        <div className="manual-input__menu-control">
           <label><TbTimeline /> Étiquette du sommet :</label>
           <input
             type="text"
             className="form-control"
             value={nouvelleEtiquetteSommet}
             onChange={(e) => setNouvelleEtiquetteSommet(e.target.value)}
-            style={{ width: "100%", marginTop: "5px" }}
           />
         </div>
-        <div style={{ marginBottom: "20px" }}>
+        <div className="manual-input__menu-control">
           <label><TbLine /> Liaisons:</label>
           <input
             type="text"
@@ -197,7 +188,6 @@ const Canvas = forwardRef((props, ref) => {
             value={saisieManuelleArete}
             onChange={(e) => setSaisieManuelleArete(e.target.value)}
             placeholder="Format: A B 5"
-            style={{ width: "100%", marginTop: "5px" }}
           />
         </div>
         <div className="btn-holder">
@@ -225,13 +215,13 @@ const Canvas = forwardRef((props, ref) => {
         </div>
         <hr />
         {aretesACM.length > 0 && (
-          <div style={{ marginTop: "20px", padding: "10px", backgroundColor: "#fff", borderRadius: "4px" }}>
+          <div className="manual-input__menu-total">
             <h4 className="fw-bold">Poids Totale:</h4>
             <p>{poidsTotal.toFixed(2)}</p>
           </div>
         )}
       </div>
-      <div style={{ flex: 2, height: "100%" }}>
+      <div className="manual-input__canvas-container">
         <div ref={canvasRef} style={{ width: "100%", height: "100%" }}>
           <Sketch
             setup={(p5) => {

@@ -273,6 +273,51 @@ body {
   transition: width 0.2s linear, height 0.15s 0.2s linear, opacity 0s;
 }
 
+.manual-input {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+.manual-input__menu {
+  width: 400px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  height: 100vh;
+}
+.manual-input__menu-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+}
+.manual-input__menu-title img {
+  width: 50px;
+  margin-right: 10px;
+}
+.manual-input__menu-control {
+  margin-bottom: 20px;
+}
+.manual-input__menu-control label {
+  display: block;
+  margin-bottom: 5px;
+}
+.manual-input__menu-control .form-control {
+  width: 100%;
+  margin-top: 5px;
+}
+.manual-input__menu-total {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+.manual-input__menu-total h4, .manual-input__menu-total .h4 {
+  margin-bottom: 10px;
+}
+.manual-input__canvas-container {
+  flex: 2;
+  height: 100%;
+}
+
 .mst-visualizer {
   display: flex;
   height: 100vh;

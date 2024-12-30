@@ -4,7 +4,7 @@ import setting from "../assets/icons/setting.svg";
 import { CgArrowsVAlt } from "react-icons/cg";
 import { GiPathDistance } from "react-icons/gi";
 
-const MSTVisualizer = () => {
+const GrapheACM = () => {
   const [sommets, setSommets] = useState([]);
   const [arêtes, setArêtes] = useState([]);
   const [échelle, setÉchelle] = useState(1);
@@ -206,7 +206,7 @@ const MSTVisualizer = () => {
         )}
       </div>
       <div className="mst-visualizer__canvas-container">
-        <div ref={canvasRef} style={{ width: "100%", height: "100%" }}>
+        <div ref={canvasRef} >
           <Sketch
             setup={(p5) => {
               const canvas = p5.createCanvas(window.innerWidth, window.innerHeight);
@@ -226,4 +226,4 @@ const MSTVisualizer = () => {
   );
 };
 
-export default MSTVisualizer;
+export default GrapheACM;
