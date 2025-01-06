@@ -1,34 +1,3 @@
-.input-method-selector select {
-  padding: 8px 16px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  background-color: white;
-  cursor: pointer;
-}
-body{
-  margin: 0;
-  padding: 0;
-}
-
-.input-method-selector select:hover {
-  border-color: #007bff;
-}
-
-button {
-  padding: 8px 16px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
 
 @import './font/typography.scss';
 @import './components/loading-screen.scss';
@@ -36,5 +5,6 @@ button:hover {
 @import './components/manual-input.scss';
 @import './components/aside-menu.scss';
 @import './animations/fade.scss';
+@import './pages/upload.scss';
 @import './pages/menu.scss';
 @import '../../../node_modules/bootstrap/scss/bootstrap';

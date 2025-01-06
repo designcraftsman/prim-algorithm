@@ -3,6 +3,7 @@ import anime from 'animejs/lib/anime.es.js';
 import background from '../assets/videos/background.mp4';
 import graph from '../assets/icons/graph.svg';
 import input from '../assets/icons/input.svg';
+import upload from '../assets/icons/upload.svg';
 
 
 const Home = () => {
@@ -71,7 +72,7 @@ const Home = () => {
         <h1 className="display-1 text-white text-center ml1 fw-bold">
           <span className='text-wrapper'>
             <span className='letters'>
-              Arbre Couvrant De Poids Minimum
+              Arbre Couvrant De Poids Minimal
             </span>
             <span class="line line2"></span>
           </span>
@@ -84,7 +85,7 @@ const Home = () => {
             <span className="display-6 d-flex align-items-center"><img src={graph} alt="Draw Graph" style={{ width: '100px' }} /> Tracer Un Graphe</span>
           </a>
           <a href="/upload" className="text-decoration-none btn btn-reverse hover-border-reverse">
-            <span className="display-6 d-flex align-items-center"><img src={graph} alt="Draw Graph" style={{ width: '100px' }} /> Télécharger une image</span>
+            <span className="display-6 d-flex align-items-center"><img src={upload} alt="Upload" style={{ width: '100px' }} /> Télécharger Une Image</span>
           </a>
         </div>
       </div>

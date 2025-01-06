@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Menu from './pages/Menu';
 import DrawGraph from './pages/DrawGraph';
 import ManualInputPage from './pages/ManualInput';
-import FileUpload from './pages/FileUpload';
 import LoadingScreen from './components/LoadingScreen';
+import UploadFile from './pages/FileUpload';
 
 const AppContent = () => {
   const [loading, setLoading] = useState(false);
@@ -25,7 +25,7 @@ const AppContent = () => {
         <Route path="/" element={<Menu />} />
         <Route path="/draw" element={<DrawGraph />} />
         <Route path="/manual" element={<ManualInputPage />} />
-        <Route path="/upload" element={<FileUpload />} />
+        <Route path="/upload" element={<UploadFile />} />
       </Routes>
     </>
   );
