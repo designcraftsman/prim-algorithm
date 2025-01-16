@@ -99,7 +99,7 @@ const Canvas = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     calculerACM,
-  }));
+  }));           
 
   const sourisPressee = (p5) => {
     const x = p5.mouseX;

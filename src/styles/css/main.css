@@ -380,7 +380,7 @@ body {
 }
 
 .image-upload {
-  background-color: #1e1e2c;
+  background-color: #1e1e1f;
   color: #e8e8ec;
   display: flex;
   justify-content: center;
@@ -392,7 +392,7 @@ body {
 
 .upload-container {
   text-align: center;
-  background-color: #2b2b3b;
+  background-color: #292935;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   overflow: hidden;
