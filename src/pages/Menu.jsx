@@ -5,7 +5,6 @@ import graph from '../assets/icons/graph.svg';
 import input from '../assets/icons/input.svg';
 import upload from '../assets/icons/upload.svg';
 
-
 const Home = () => {
   useEffect(() => {
     var textWrapper = document.querySelector('.ml1 .letters');
@@ -74,19 +73,34 @@ const Home = () => {
             <span className='letters'>
               Arbre Couvrant De Poids Minimal
             </span>
-            <span class="line line2"></span>
+            <span className="line line2"></span>
           </span>
         </h1>
         <div className="options my-5 d-flex align-items-center gap-3">
-          <a href="/manual" className="text-decoration-none btn btn-reverse hover-border-reverse">
-            <span className="display-6 d-flex align-items-center"><img src={input} alt="Manual Input" style={{ width: '100px' }} /> Saisir les sommets</span>
-          </a>
-          <a href="/draw" className="text-decoration-none btn btn-reverse hover-border-reverse">
-            <span className="display-6 d-flex align-items-center"><img src={graph} alt="Draw Graph" style={{ width: '100px' }} /> Tracer Un Graphe</span>
-          </a>
-          <a href="/upload" className="text-decoration-none btn btn-reverse hover-border-reverse">
-            <span className="display-6 d-flex align-items-center"><img src={upload} alt="Upload" style={{ width: '100px' }} /> Traiter Une Image</span>
-          </a>
+          <button
+            onClick={() => window.location.href = '/manual'}
+            className="text-decoration-none btn btn-reverse hover-border-reverse"
+          >
+            <span className="display-6 d-flex align-items-center">
+              <img src={input} alt="Manual Input" style={{ width: '100px' }} /> Saisir les sommets
+            </span>
+          </button>
+          <button
+            onClick={() => window.location.href = '/draw'}
+            className="text-decoration-none btn btn-reverse hover-border-reverse"
+          >
+            <span className="display-6 d-flex align-items-center">
+              <img src={graph} alt="Draw Graph" style={{ width: '100px' }} /> Tracer Un Graphe
+            </span>
+          </button>
+          <button
+            onClick={() => window.location.href = '/upload'}
+            className="text-decoration-none btn btn-reverse hover-border-reverse"
+          >
+            <span className="display-6 d-flex align-items-center">
+              <img src={upload} alt="Upload" style={{ width: '100px' }} /> Traiter Une Image
+            </span>
+          </button>
         </div>
       </div>
     </div>

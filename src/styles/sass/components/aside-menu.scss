@@ -9,6 +9,10 @@
       background-color: #f4f4f4;
       position: fixed;
       height: 100vh;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+        padding-top: 50px;
+      }
   
       &-title {
         font-size: 2rem;
@@ -52,3 +56,86 @@
       height: 100%;
     }
   }
+
+
+
+
+  .hamburger-init {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    z-index: 200001; // Highest z-index to stay on top
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    &::before {
+      content: '';
+      width: 130%;
+      height: 130%;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+  
+    &:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  
+    &.light {
+      background-color: white;
+      .bar {
+        background: black;
+      }
+      &::before {
+        background-color: white;
+      }
+    }
+    
+    .bar {
+      background: white;
+      position: absolute;
+      height: 2px;
+      width: 25px;
+      transition: all 0.3s;
+    }
+  
+    .top-bar {
+      transform: translateY(-4px);
+    }
+  
+    .bottom-bar {
+      transform: translateY(4px);
+    }
+  
+    &.active {
+      .top-bar {
+        transform: translateY(0) rotate(45deg);
+      }
+      .bottom-bar {
+        transform: translateY(0) rotate(-45deg);
+      }
+    }
+  }
+  
+  .bar {
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: #000;
+    transition: all 0.6s;
+  
+    &.middle-bar {
+      top: 50%;
+      margin-top: -2px;
+    }
+  
+    &.bottom-bar {
+      bottom: 10;
+    }
+  }
+
+  
+  

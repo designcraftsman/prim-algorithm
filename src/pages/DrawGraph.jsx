@@ -9,9 +9,23 @@ const GrapheACM = () => {
   const [arêtes, setArêtes] = useState([]);
   const [échelle, setÉchelle] = useState(1);
   const [unité, setUnité] = useState("km");
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const canvasRef = useRef(null); // Référence au conteneur du canvas
-  const padding = 50; // Marge autour du canvas
+  const largePadding = 50; // Marge autour du canvas pour large screens
+  const smallPadding = 30; // Marge autour du canvas pour small and medium screens
   const menuWidth = 450; // Largeur du menu
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 992); // Adjust based on your breakpoint
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const ajouterSommet = (x, y) => {
     const label = String.fromCharCode(65 + sommets.length); // 'A', 'B', 'C', ...
@@ -73,7 +87,10 @@ const GrapheACM = () => {
   };
 
   const sourisPressée = (p5) => {
-    const x = p5.mouseX - menuWidth - padding;
+    if (isMenuVisible) return; // Do not add points if the menu is visible
+
+    const padding = isSmallScreen ? smallPadding : largePadding;
+    const x = p5.mouseX - (isSmallScreen ? 0 : menuWidth) - padding;
     const y = p5.mouseY - padding;
 
     if (x >= 0 && x <= p5.width - 2 * padding && y >= 0 && y <= p5.height - 2 * padding) {
@@ -85,10 +102,12 @@ const GrapheACM = () => {
   const dessiner = (p5) => {
     p5.background(51);
 
-    const largeurDessinable = p5.width - menuWidth - 2 * padding;
-    const hauteurDessinable = p5.height - 2 * padding;
+    const padding = isSmallScreen ? smallPadding : largePadding;
+    const topPadding = isSmallScreen ? smallPadding + 40 : largePadding; // Add more top padding
+    const largeurDessinable = p5.width - (isSmallScreen ? 0 : menuWidth) - 2 * padding;
+    const hauteurDessinable = p5.height - 2 * topPadding;
 
-    p5.translate(menuWidth + padding + largeurDessinable / 2, padding + hauteurDessinable / 2);
+    p5.translate((isSmallScreen ? 0 : menuWidth) + padding + largeurDessinable / 2, topPadding + hauteurDessinable / 2);
 
     // Dessiner les axes
     p5.stroke(200);
@@ -159,8 +178,22 @@ const GrapheACM = () => {
 
   return (
     <div className="mst-visualizer">
-      <div className="mst-visualizer__menu">
-        <h3 className="mst-visualizer__menu-title">
+      {isSmallScreen && (
+        <a
+          role="button"
+          className="menu-toggle-button text-decoration-none text-white text-center bg-dark fw-bold fs-4 d-flex justify-content-center align-items-center"
+          onClick={() => setIsMenuVisible(!isMenuVisible)}
+          style={{ position: "absolute",  zIndex: 1000, width: "100%" }}
+        > 
+          <div className={`hamburger-init ${isMenuVisible ? 'active' : ''}`}>
+                <span className="bar top-bar"></span>
+                <span className="bar bottom-bar"></span>
+          </div>
+          Menu
+        </a>
+      )}
+      <div className={`mst-visualizer__menu my-lg-0 my-4 ${isSmallScreen && !isMenuVisible ? 'd-none' : 'd-lg-block'}`}> 
+        <h3 className="mst-visualizer__menu-title fs-4">
           <img src={setting} alt="Dessiner Graphe" />
           Contrôles Graphiques
         </h3>
@@ -217,7 +250,7 @@ const GrapheACM = () => {
             draw={dessiner}
             mousePressed={sourisPressée}
             windowResized={(p5) => {
-              p5.resizeCanvas(window.innerWidth - menuWidth, window.innerHeight);
+              p5.resizeCanvas(window.innerWidth - (isSmallScreen ? 0 : menuWidth), window.innerHeight);
             }}
           />
         </div>

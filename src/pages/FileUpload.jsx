@@ -218,7 +218,7 @@ const ImageUpload = () => {
                     key={index}
                     src={image}
                     alt={`Cropped Edge ${index + 1}`}
-                    className="col-2 mx-3"
+                    className="col-1 mx-3"
                   />
                 ))}
               </div>
@@ -228,9 +228,9 @@ const ImageUpload = () => {
             <div className="my-3">
               <h4>Arêtes:</h4>
               <ul className="cropped-gallery">
-                {results.outputs[0].Cropped_Images_Text.map(( edge) => (
+                {results.outputs[0].Cropped_Images_Text.map((edge,index) => (
                   <li className="fs-6">
-                    {edge}
+                    Arête {index} : "{edge}"
                   </li>
                 ))}
               </ul>
