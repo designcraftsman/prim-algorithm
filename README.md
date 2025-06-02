@@ -1,70 +1,109 @@
-# Getting Started with Create React App
+# Prim Algorithm Visualizer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a web-based application designed to visualize the Prim's algorithm for finding the Minimum Spanning Tree (MST) of a graph. It provides multiple input methods, interactive graph drawing, and real-time visualization of the algorithm's steps.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### Input Methods
+- **Manual Input**: Users can manually input vertices and edges with weights.
+- **File Upload**: Upload graph data in a predefined format for visualization.
+- **Interactive Drawing**: Draw graphs directly on the canvas.
 
-### `npm start`
+### Visualization
+- **Step-by-Step Execution**: Visualize each step of Prim's algorithm in real-time.
+- **Graph Representation**: Display vertices, edges, and weights dynamically.
+- **Highlighting**: Highlight edges and vertices as they are added to the MST.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### User Interface
+- **Responsive Design**: Optimized for various screen sizes.
+- **Loading Screen**: Animated loading screen for better user experience.
+- **Menu Navigation**: Easy navigation between input methods and visualization modes.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies Used
 
-### `npm test`
+### Frontend
+- **React.js**: Component-based architecture for building the user interface.
+- **Anime.js**: Used for animations in the UI.
+- **Bootstrap**: Responsive design framework.
+- **SASS**: Modular styling with variables and mixins.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Backend
+- **Node.js**: Server-side runtime for handling file uploads and processing graph data.
+- **Express.js**: Web framework for building RESTful APIs.
 
-### `npm run build`
+### Tools
+- **Vite**: Build tool for fast development.
+- **ESLint**: Code quality and linting.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## MVC Architecture
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The project follows a component-based architecture inspired by MVC principles:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Model**: Graph data is managed in state variables and processed for visualization.
+- **View**: React components render the user interface dynamically.
+- **Controller**: Logic within components handles user interactions and updates the view.
 
-### `npm run eject`
+## Project Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+prim-algorithm/
+├── .gitignore
+├── package.json
+├── README.md
+├── public/
+│   ├── _redirects
+│   ├── index.html
+├── src/
+│   ├── App.jsx
+│   ├── index.js
+│   ├── assets/
+│   │   ├── icons/
+│   │   │   ├── graph.svg
+│   │   │   ├── graphique.svg
+│   │   │   ├── input.svg
+│   │   │   ├── setting.svg
+│   │   │   ├── upload.svg
+│   │   ├── images/
+│   │   │   ├── background.jpg
+│   │   ├── videos/
+│   │   │   ├── background.mp4
+│   ├── components/
+│   │   ├── LoadingScreen.jsx
+│   ├── pages/
+│   │   ├── DrawGraph.jsx
+│   │   ├── FileUpload.jsx
+│   │   ├── ManualInput.jsx
+│   │   ├── Menu.jsx
+│   ├── styles/
+│       ├── css/
+│       │   ├── main.css
+│       │   ├── main.css.map
+│       ├── sass/
+│           ├── main.scss
+│           ├── animations/
+│           │   ├── fade.scss
+│           ├── components/
+│           │   ├── aside-menu.scss
+│           ├── font/
+│           ├── pages/
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## How to Run
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open the application in your browser at `http://localhost:3000`.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Notes
+- Ensure the graph data format is correct when using the file upload feature.
+- The application requires WebGL support in the browser for interactive graph drawing.
